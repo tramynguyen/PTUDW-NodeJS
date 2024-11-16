@@ -2,12 +2,12 @@
 
 const express = require('express');
 const router = express.Router();
-// router.get('/createTables',(req,res)=>{
-//     let models = require('../models');
-//     models.sequelize.sync().then(()=>{
-//         res.send("bảng đã dc tạo xong");
-//     })
-// })
+router.get('/createTables',(req,res)=>{
+    let models = require('../models');
+    models.sequelize.sync().then(()=>{
+        res.send("bảng đã dc tạo xong");
+    })
+})
 const controller = require('../controllers/indexController');
 router.get('/',controller.showHomePage);
 router.get('/:page',controller.showPage);
