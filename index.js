@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config();
 const express = require('express');
 const port = process.env.port||3000;
 const app = express();
@@ -16,7 +17,7 @@ const { createClient } = require('redis');
 const { default: RedisStore } = require('connect-redis');
 const redisClient = createClient({
     //url: 'rediss://red-cssb8ia3esus739kfvf0:ooQcOjz2g0xc2bNuwi7o4ei0i05PANZH@oregon-redis.render.com:6379'
-    url: 'redis://red-cssb8ia3esus739kfvf0:6379'
+    url: process.env.REDIS_URL
 });
 redisClient.connect().catch(console.error);
 
@@ -49,7 +50,7 @@ app.use(express.urlencoded({extended:false}));
 
 //cấu hinh sử dụng session
 app.use(session({
-    secret: 'S3cret',
+    secret: process.env.SESSION_SECRET,
     store: new RedisStore({client:redisClient}),
     resave: false,
     saveUninitialized: false,

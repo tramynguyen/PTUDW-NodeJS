@@ -1,5 +1,6 @@
 {
   "development": {
+    "use_env_variable": "POSTGRESQL_URL",
     "username": "ptuddw_project_db_user",
     "password": "aMSvx6DVUlnQEfUucqzhVKRswQlsm403",
     "database": "ptuddw_project_db",
