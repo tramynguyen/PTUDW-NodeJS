@@ -4,12 +4,22 @@ const port = process.env.port||3000;
 const app = express();
 const { createPagination } = require('express-handlebars-paginate');
 
+
 //cấu hình sử dụng express-handlebars
 const expressHandlebars = require('express-handlebars');
 const {createStarList} = require('./controllers/handlerbarsHelper.js');
 
 //cấu hình public static folder
 const session = require('express-session');
+const redisStore = require('connect-redis').default;
+const { createClient } = require('redis');
+const { default: RedisStore } = require('connect-redis');
+const redisClient = createClient({
+    //url: 'rediss://red-cssb8ia3esus739kfvf0:ooQcOjz2g0xc2bNuwi7o4ei0i05PANZH@oregon-redis.render.com:6379'
+    url: 'redis://red-cssb8ia3esus739kfvf0:6379'
+});
+redisClient.connect().catch(console.error);
+
 app.use(express.static(__dirname + '/public'));
 
 // app.get('/',(req,res) => {
@@ -37,9 +47,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 
-//cấu honhf sử dụng session
+//cấu hinh sử dụng session
 app.use(session({
     secret: 'S3cret',
+    store: new RedisStore({client:redisClient}),
     resave: false,
     saveUninitialized: false,
     cookie: {
